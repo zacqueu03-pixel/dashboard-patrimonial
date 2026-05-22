@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Patrimonial</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- XLSX -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  </head>
+
+  <body>
+    <div class="sidebar">
+      <h2>PATRIMÔNIO</h2>
+
+      <ul>
+        <li>🏠 Dashboard</li>
+        <li>📦 Patrimônios</li>
+        <li>📊 Relatórios</li>
+        <li>⚙ Configurações</li>
+      </ul>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <h1>Dashboard Patrimonial</h1>
+
+        <div class="topo">
+          <input type="file" id="inputExcel" />
+
+          <input
+            type="text"
+            id="pesquisa"
+            placeholder="Pesquisar patrimônio..."
+          />
+
+          <button id="toggleDark">🌙 Modo Escuro</button>
+
+          <select id="filtroDepartamento">
+            <option value="">Todos os Departamentos</option>
+          </select>
+
+          <select id="filtroFabricante">
+            <option value="">Todos Fabricantes</option>
+          </select>
+
+          <select id="filtroStatus">
+            <option value="">Todos Status</option>
+          </select>
+
+          <select id="filtroResponsavel">
+            <option value="">Todos Responsáveis</option>
+          </select>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <h3>Total de Itens</h3>
+            <p id="totalItens">0</p>
+          </div>
+
+          <div class="card">
+            <h3>Valor Total</h3>
+            <p id="valorTotal">R$ 0</p>
+          </div>
+
+          <div class="card">
+            <h3>Departamentos</h3>
+            <p id="totalDepartamentos">0</p>
+          </div>
+          <div class="card">
+            <h3>Ativos</h3>
+            <p id="ativos">0</p>
+          </div>
+
+          <div class="card">
+            <h3>Manutenção</h3>
+            <p id="manutencao">0</p>
+          </div>
+
+          <div class="card">
+            <h3>Estoque</h3>
+            <p id="estoque">0</p>
+          </div>
+
+          <div class="card">
+            <h3>Baixados</h3>
+            <p id="baixados">0</p>
+          </div>
+        </div>
+
+        <div class="grafico-box">
+          <canvas id="graficoRanking"></canvas>
+        </div>
+
+        <div class="grafico-box">
+          <canvas id="graficoValorDepartamento"></canvas>
+        </div>
+
+        <div class="alertas">
+          <div class="alerta-card">
+            <h3>Sem Responsável</h3>
+            <p id="alertaResponsavel">0</p>
+          </div>
+
+          <div class="alerta-card">
+            <h3>Sem Valor</h3>
+            <p id="alertaValor">0</p>
+          </div>
+
+          <div class="alerta-card">
+            <h3>Sem Inventário</h3>
+            <p id="alertaInventario">0</p>
+          </div>
+
+          <div class="alerta-card">
+            <h3>Em Manutenção</h3>
+            <p id="alertaManutencao">0</p>
+          </div>
+        </div>
+
+        <div class="graficos">
+          <div class="grafico-box">
+            <canvas id="graficoStatus"></canvas>
+          </div>
+
+          <div class="grafico-box">
+            <canvas id="graficoDepartamento"></canvas>
+          </div>
+        </div>
+
+        <div class="tabela-container">
+          <table id="tabelaPatrimonio">
+            <thead>
+              <tr>
+                <th>Identificação</th>
+                <th>Produto</th>
+                <th>Fabricante</th>
+                <th>Modelo</th>
+                <th>Status</th>
+                <th>Departamento</th>
+                <th>Responsável</th>
+                <th>Valor Total</th>
+              </tr>
+            </thead>
+
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <script src="script.js"></script>
+    </div>
+  </body>
+</html>
