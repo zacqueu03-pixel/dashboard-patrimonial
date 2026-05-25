@@ -182,11 +182,35 @@ function criarGraficoStatus(dados) {
 
     data: {
       labels: Object.keys(dados),
+
       datasets: [
         {
           data: Object.values(dados),
+
+          backgroundColor: [
+            "#facc15",
+            "#eab308",
+            "#ca8a04",
+            "#fde047",
+            "#f59e0b"
+          ],
+
+          borderColor: "#111",
+          borderWidth: 2,
         },
       ],
+    },
+
+    options: {
+      responsive: true,
+
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+          },
+        },
+      },
     },
   });
 }
@@ -203,12 +227,44 @@ function criarGraficoDepartamento(dados) {
 
     data: {
       labels: Object.keys(dados),
+
       datasets: [
         {
           label: "Quantidade",
           data: Object.values(dados),
+
+          backgroundColor: "#facc15",
+          borderColor: "#eab308",
+          borderWidth: 2,
+          borderRadius: 8,
         },
       ],
+    },
+
+    options: {
+      responsive: true,
+
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+          },
+        },
+      },
+
+      scales: {
+        x: {
+          ticks: {
+            color: "white",
+          },
+        },
+
+        y: {
+          ticks: {
+            color: "white",
+          },
+        },
+      },
     },
   });
 }
@@ -267,21 +323,49 @@ function criarGraficoRanking(dados) {
 
     data: {
       labels: labels,
+
       datasets: [
         {
           label: "Ranking de Patrimônios",
           data: valores,
+
+          backgroundColor: "#facc15",
+          borderColor: "#eab308",
+          borderWidth: 2,
+          borderRadius: 8,
         },
       ],
     },
 
     options: {
+      responsive: true,
       indexAxis: "y",
 
       plugins: {
+        legend: {
+          labels: {
+            color: "white",
+          },
+        },
+
         title: {
           display: true,
-          text: "Status dos Patrimônios",
+          text: "Ranking de Patrimônios",
+          color: "white",
+        },
+      },
+
+      scales: {
+        x: {
+          ticks: {
+            color: "white",
+          },
+        },
+
+        y: {
+          ticks: {
+            color: "white",
+          },
         },
       },
     },
@@ -306,17 +390,30 @@ function criarGraficoValorDepartamento(dados) {
 
     data: {
       labels: labels,
+
       datasets: [
         {
           label: "Valor Patrimonial",
           data: valores,
+
+          backgroundColor: "#facc15",
+          borderColor: "#eab308",
+          borderWidth: 2,
+          borderRadius: 8,
         },
       ],
     },
 
     options: {
       responsive: true,
+
       plugins: {
+        legend: {
+          labels: {
+            color: "white",
+          },
+        },
+
         tooltip: {
           callbacks: {
             label: function (context) {
@@ -325,6 +422,20 @@ function criarGraficoValorDepartamento(dados) {
                 currency: "BRL",
               });
             },
+          },
+        },
+      },
+
+      scales: {
+        x: {
+          ticks: {
+            color: "white",
+          },
+        },
+
+        y: {
+          ticks: {
+            color: "white",
           },
         },
       },
