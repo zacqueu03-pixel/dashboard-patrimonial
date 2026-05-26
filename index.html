@@ -9,6 +9,7 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- XLSX -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -16,21 +17,24 @@
 
   <body>
     <div class="sidebar">
-
       <div class="logo-empresa">
-       <img src="logo.png" alt="Logo Empresa" />
+        <img src="logo.png" alt="Logo Empresa" />
       </div>
 
       <ul>
-        <li>🏠 Dashboard</li>
-        <li>📦 Patrimônios</li>
-        <li>📊 Relatórios</li>
-        <li>⚙ Configurações</li>
+        <li class="active" id="btnDashboard">🏠 Dashboard</li>
+<li id="btnPatrimonios">📦 Patrimônios</li>
+<li id="btnRelatorios">📊 Relatórios</li>
+<li>⚙ Configurações</li>
       </ul>
     </div>
 
     <div class="main">
       <div class="container">
+        <div id="loading">
+          <div class="spinner"></div>
+          <p>Carregando planilha...</p>
+        </div>
         <h1>Dashboard Patrimonial</h1>
 
         <div class="topo">
@@ -60,6 +64,8 @@
             <option value="">Todos Responsáveis</option>
           </select>
         </div>
+
+        <div id="dashboardPage"></div>
 
         <div class="cards">
           <div class="card">
@@ -155,9 +161,61 @@
             <tbody></tbody>
           </table>
         </div>
+        </div>
       </div>
+<div id="patrimoniosPage" style="display:none;">
+  <h1>Patrimônios</h1>
 
-      <script src="script.js"></script>
+  <div class="tabela-container">
+    <table id="tabelaPatrimonios2">
+      <thead>
+        <tr>
+          <th>Identificação</th>
+          <th>Produto</th>
+          <th>Fabricante</th>
+          <th>Modelo</th>
+          <th>Status</th>
+          <th>Departamento</th>
+        </tr>
+      </thead>
+
+      <tbody id="tbodyPatrimonios"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="relatoriosPage" style="display:none;">
+
+  <h1>Relatórios</h1>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Total Patrimonial</h3>
+      <p id="relatorioTotal">R$ 0</p>
     </div>
-  </body>
+
+    <div class="card">
+      <h3>Total Ativos</h3>
+      <p id="relatorioAtivos">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Em Manutenção</h3>
+      <p id="relatorioManutencao">0</p>
+    </div>
+
+  </div>
+
+  <div class="botao-relatorio">
+    <button id="exportarPdf">
+      📄 Exportar Relatório
+    </button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
 </html>

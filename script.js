@@ -20,6 +20,7 @@ const filtroDepartamento = document.getElementById("filtroDepartamento");
 const filtroFabricante = document.getElementById("filtroFabricante");
 const filtroStatus = document.getElementById("filtroStatus");
 const filtroResponsavel = document.getElementById("filtroResponsavel");
+const loading = document.getElementById("loading");
 
 let dadosPlanilha = [];
 
@@ -32,6 +33,7 @@ inputExcel.addEventListener("change", carregarPlanilha);
 
 function carregarPlanilha(event) {
   const arquivo = event.target.files[0];
+  loading.style.display = "flex";
 
   const reader = new FileReader();
 
@@ -53,9 +55,37 @@ function carregarPlanilha(event) {
     atualizarFiltroDepartamentos(dados);
 
     preencherFiltros(dados);
+
+    setTimeout(() => {
+      loading.style.display = "none";
+    }, 800);
   };
 
   reader.readAsArrayBuffer(arquivo);
+}
+
+function animarNumero(elemento, valorFinal) {
+  let inicio = 0;
+
+  const duracao = 1000;
+
+  const incremento = valorFinal / (duracao / 16);
+
+  function atualizar() {
+    inicio += incremento;
+
+    if (inicio >= valorFinal) {
+      elemento.textContent = valorFinal.toLocaleString("pt-BR");
+
+      return;
+    }
+
+    elemento.textContent = Math.floor(inicio).toLocaleString("pt-BR");
+
+    requestAnimationFrame(atualizar);
+  }
+
+  atualizar();
 }
 
 function atualizarDashboard(dados) {
@@ -146,7 +176,7 @@ function atualizarDashboard(dados) {
       (departamentoContagem[departamento] || 0) + 1;
   });
 
-  totalItens.textContent = dados.length;
+  animarNumero(totalItens, dados.length);
 
   valorTotal.textContent = somaValores.toLocaleString("pt-BR", {
     style: "currency",
@@ -154,14 +184,14 @@ function atualizarDashboard(dados) {
   });
 
   totalDepartamentos.textContent = departamentos.size;
-  ativos.textContent = totalAtivos;
-  manutencao.textContent = totalManutencao;
-  estoque.textContent = totalEstoque;
-  baixados.textContent = totalBaixados;
-  alertaResponsavel.textContent = semResponsavel;
-  alertaValor.textContent = semValor;
-  alertaInventario.textContent = semInventario;
-  alertaManutencao.textContent = emManutencao;
+  animarNumero(ativos, totalAtivos);
+  animarNumero(manutencao, totalManutencao);
+  animarNumero(estoque, totalEstoque);
+  animarNumero(baixados, totalBaixados);
+  animarNumero(alertaResponsavel, semResponsavel);
+  animarNumero(alertaValor, semValor);
+  animarNumero(alertaInventario, semInventario);
+  animarNumero(alertaManutencao, emManutencao);
 
   criarGraficoStatus(statusContagem);
 
@@ -188,11 +218,12 @@ function criarGraficoStatus(dados) {
           data: Object.values(dados),
 
           backgroundColor: [
-            "#facc15",
-            "#eab308",
-            "#ca8a04",
-            "#fde047",
-            "#f59e0b"
+            "#facc15", // amarelo
+            "#22c55e", // verde
+            "#3b82f6", // azul
+            "#ef4444", // vermelho
+            "#a855f7", // roxo
+            "#f97316", // laranja
           ],
 
           borderColor: "#111",
@@ -202,6 +233,9 @@ function criarGraficoStatus(dados) {
     },
 
     options: {
+      animation: {
+        duration: 1500,
+      },
       responsive: true,
 
       plugins: {
@@ -218,6 +252,11 @@ function criarGraficoStatus(dados) {
 function criarGraficoDepartamento(dados) {
   const ctx = document.getElementById("graficoDepartamento");
 
+  const gradient = ctx.getContext("2d").createLinearGradient(0, 0, 0, 400);
+
+  gradient.addColorStop(0, "#fde047");
+  gradient.addColorStop(1, "#ca8a04");
+
   if (graficoDepartamento) {
     graficoDepartamento.destroy();
   }
@@ -233,7 +272,7 @@ function criarGraficoDepartamento(dados) {
           label: "Quantidade",
           data: Object.values(dados),
 
-          backgroundColor: "#facc15",
+          backgroundColor: gradient,
           borderColor: "#eab308",
           borderWidth: 2,
           borderRadius: 8,
@@ -308,6 +347,11 @@ filtroDepartamento.addEventListener("change", aplicarFiltros);
 function criarGraficoRanking(dados) {
   const ctx = document.getElementById("graficoRanking");
 
+  const gradient = ctx.getContext("2d").createLinearGradient(0, 0, 400, 0);
+
+  gradient.addColorStop(0, "#fde047");
+  gradient.addColorStop(1, "#ca8a04");
+
   if (graficoRanking) {
     graficoRanking.destroy();
   }
@@ -329,7 +373,7 @@ function criarGraficoRanking(dados) {
           label: "Ranking de Patrimônios",
           data: valores,
 
-          backgroundColor: "#facc15",
+          backgroundColor: gradient,
           borderColor: "#eab308",
           borderWidth: 2,
           borderRadius: 8,
@@ -497,3 +541,80 @@ function aplicarFiltros() {
 filtroFabricante.addEventListener("change", aplicarFiltros);
 filtroStatus.addEventListener("change", aplicarFiltros);
 filtroResponsavel.addEventListener("change", aplicarFiltros);
+
+const btnDashboard = document.getElementById("btnDashboard");
+const btnPatrimonios = document.getElementById("btnPatrimonios");
+
+const dashboardPage = document.getElementById("dashboardPage");
+const patrimoniosPage = document.getElementById("patrimoniosPage");
+
+btnDashboard.addEventListener("click", () => {
+
+  relatoriosPage.style.display = "none";
+
+  dashboardPage.style.display = "block";
+  patrimoniosPage.style.display = "none";
+
+  btnDashboard.classList.add("active");
+  btnPatrimonios.classList.remove("active");
+
+});
+
+btnPatrimonios.addEventListener("click", () => {
+  relatoriosPage.style.display = "none";
+
+  dashboardPage.style.display = "none";
+  patrimoniosPage.style.display = "block";
+
+  btnPatrimonios.classList.add("active");
+  btnDashboard.classList.remove("active");
+
+});
+
+const btnRelatorios = document.getElementById("btnRelatorios");
+
+const relatoriosPage = document.getElementById("relatoriosPage");
+
+btnRelatorios.addEventListener("click", () => {
+
+  dashboardPage.style.display = "none";
+  patrimoniosPage.style.display = "none";
+  relatoriosPage.style.display = "block";
+
+  btnDashboard.classList.remove("active");
+  btnPatrimonios.classList.remove("active");
+
+  btnRelatorios.classList.add("active");
+
+});
+
+const botaoPdf = document.getElementById("exportarPdf");
+
+botaoPdf.addEventListener("click", gerarPDF);
+
+function gerarPDF() {
+
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  doc.setFontSize(22);
+
+  doc.text("Relatório Patrimonial", 20, 20);
+
+  doc.setFontSize(14);
+
+  doc.text(`Total de Itens: ${totalItens.textContent}`, 20, 40);
+
+  doc.text(`Valor Total: ${valorTotal.textContent}`, 20, 50);
+
+  doc.text(`Ativos: ${ativos.textContent}`, 20, 60);
+
+  doc.text(`Em Manutenção: ${manutencao.textContent}`, 20, 70);
+
+  doc.text(`Estoque: ${estoque.textContent}`, 20, 80);
+
+  doc.text(`Baixados: ${baixados.textContent}`, 20, 90);
+
+  doc.save("relatorio-patrimonial.pdf");
+}

@@ -5,11 +5,15 @@
   font-family: Arial, sans-serif;
 }
 
-body {
+body{
+  background: #f4f4f4;
+  color: #222;
+  transition: 0.3s;
+}
+
+.dark-mode{
   background: #0f0f0f;
   color: white;
-  display: flex;
-  min-height: 100vh;
 }
 
 /* CONTAINER */
@@ -21,8 +25,12 @@ body {
 }
 
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   color: #facc15;
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(250,204,21,0.25);
 }
 
 /* TOPO */
@@ -38,12 +46,15 @@ h1 {
 .topo input,
 .topo select,
 .topo button {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #2a2a2a;
-  background: #1a1a1a;
-  color: white;
-  transition: 0.3s;
+  background: linear-gradient(135deg, #facc15, #ca8a04);
+  color: black;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(250,204,21,0.15);
 }
 
 .topo input:focus,
@@ -58,9 +69,11 @@ button {
 }
 
 button:hover {
-  background: #facc15;
-  color: black;
-  transform: scale(1.03);
+  transform: translateY(-3px) scale(1.03);
+
+  box-shadow:
+    0 0 15px rgba(250,204,21,0.25),
+    0 0 30px rgba(250,204,21,0.12);
 }
 
 /* SIDEBAR */
@@ -74,6 +87,7 @@ button:hover {
   padding: 25px;
   position: fixed;
   height: 100%;
+  backdrop-filter: blur(10px);
 }
 
 .sidebar ul {
@@ -86,13 +100,43 @@ button:hover {
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar ul li.active{
+  background: linear-gradient(90deg, #facc15, #ca8a04);
+  color: black;
+  font-weight: bold;
+
+  box-shadow:
+    0 0 15px rgba(250,204,21,0.25),
+    0 0 30px rgba(250,204,21,0.12);
 }
 
 .sidebar ul li:hover {
-  background: #facc15;
-  color: black;
-  transform: translateX(5px);
+  background: rgba(250,204,21,0.12);
+  color: #facc15;
+  transform: translateX(8px);
 }
+
+.sidebar ul li::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: #facc15;
+  transform: scaleY(0);
+  transition: 0.3s;
+  border-radius: 10px;
+.sidebar ul li:hover::before{
+  transform: scaleY(1);
+}
+}
+
+
 
 /* LOGO */
 
@@ -109,6 +153,7 @@ button:hover {
   padding: 10px;
   object-fit: contain;
   transition: 0.3s;
+  filter: drop-shadow(0 0 12px rgba(250,204,21,0.25));
 }
 
 .logo-empresa img:hover {
@@ -122,8 +167,6 @@ button:hover {
   width: calc(100% - 240px);
 }
 
-/* CARDS */
-
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -132,18 +175,22 @@ button:hover {
 }
 
 .card {
-  background: #1a1a1a;
+  background: rgba(26,26,26,0.85);
+  backdrop-filter: blur(10px);
   padding: 20px;
   border-radius: 15px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid rgba(255,255,255,0.05);
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
+  animation: aparecer 0.5s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   border-color: #facc15;
-  box-shadow: 0 0 20px rgba(250,204,21,0.15);
+  box-shadow:
+    0 0 15px rgba(250,204,21,0.15),
+    0 0 30px rgba(250,204,21,0.08);
 }
 
 .card h3 {
@@ -174,10 +221,14 @@ button:hover {
   border: 1px solid #2a2a2a;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
+  animation: aparecer 0.6s ease;
 }
 
 .alerta-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow:
+    0 0 15px rgba(250,204,21,0.15),
+    0 0 30px rgba(250,204,21,0.08);
 }
 
 .alerta-card h3 {
@@ -208,10 +259,15 @@ button:hover {
   height: 500px;
   position: relative;
   transition: all 0.3s ease;
+  animation: aparecer 0.7s ease;
 }
 
 .grafico-box:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  border-color: #facc15;
+  box-shadow:
+    0 0 15px rgba(250,204,21,0.12),
+    0 0 30px rgba(250,204,21,0.06);
 }
 
 canvas {
@@ -222,12 +278,14 @@ canvas {
 
 .tabela-container {
   margin-top: 25px;
-  background: #1a1a1a;
-  border-radius: 15px;
+  background: rgba(26,26,26,0.88);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
   overflow: auto;
   max-height: 500px;
-  border: 1px solid #2a2a2a;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  animation: aparecer 0.8s ease;
 }
 
 #tabelaPatrimonio {
@@ -243,20 +301,30 @@ canvas {
 }
 
 table th {
-  background: #facc15;
+  background: linear-gradient(135deg, #facc15, #ca8a04);
   color: black;
-  padding: 14px;
+  padding: 16px;
   text-align: left;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 
 table td {
-  padding: 12px;
+  padding: 14px;
   border-bottom: 1px solid #2a2a2a;
   color: white;
+  transition: 0.3s;
+  table tr:nth-child(even){
+  background: rgba(255,255,255,0.02);
+}
 }
 
 table tr:hover {
-  background: #222;
+  background: rgba(250,204,21,0.08);
+  transform: scale(1.002);
 }
 
 /* SCROLL */
@@ -267,7 +335,7 @@ table tr:hover {
 }
 
 .tabela-container::-webkit-scrollbar-thumb {
-  background: #facc15;
+  background: linear-gradient(#facc15, #ca8a04);
   border-radius: 10px;
 }
 
@@ -299,4 +367,81 @@ table tr:hover {
     align-items: stretch;
   }
 
+}
+
+/* LOADING */
+
+#loading{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15,15,15,0.92);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+}
+
+#loading p{
+  margin-top: 20px;
+  color: #facc15;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.spinner{
+  width: 70px;
+  height: 70px;
+  border: 6px solid #333;
+  border-top: 6px solid #facc15;
+  border-radius: 50%;
+  animation: girar 1s linear infinite;
+}
+
+@keyframes girar{
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+/* ANIMAÇÕES */
+
+@keyframes aparecer {
+
+  from{
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+.botao-relatorio{
+  margin-top: 25px;
+}
+
+#exportarPdf{
+  background: linear-gradient(135deg, #facc15, #eab308);
+  color: #111;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(250,204,21,0.25);
+}
+
+#exportarPdf:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(250,204,21,0.45);
 }
